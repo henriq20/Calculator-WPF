@@ -42,6 +42,7 @@ namespace Calculator
             {
                 switch (_selectedOperator)
                 {
+
                     case SelectedOperator.Addtion:
                         _result = SimpleMath.Add(_lastNumber, newNumber);
                         break;
@@ -62,10 +63,15 @@ namespace Calculator
 
         private void BtnPercentage_Click(object sender, RoutedEventArgs e)
         {
-            if (double.TryParse(lblResult.Content.ToString(), out _lastNumber))
+            double tempNumber;
+            if (double.TryParse(lblResult.Content.ToString(), out tempNumber))
             {
-                _lastNumber /= 100;
-                lblResult.Content = _lastNumber.ToString();
+                tempNumber /= 100;
+
+                if (_lastNumber != 0)
+                    tempNumber *= _lastNumber;
+
+                lblResult.Content = tempNumber.ToString();
             }
         }
 
@@ -81,12 +87,12 @@ namespace Calculator
         private void BtnAc_Click(object sender, RoutedEventArgs e)
         {
             lblResult.Content = "0";
+            _result = 0;
+            _lastNumber = 0;
         }
 
         private void btnOperation_Click(object sender, RoutedEventArgs e)
         {
-            Button selectedButton = sender as Button;
-
             if (double.TryParse(lblResult.Content.ToString(), out _lastNumber))
             {
                 lblResult.Content = "0";
